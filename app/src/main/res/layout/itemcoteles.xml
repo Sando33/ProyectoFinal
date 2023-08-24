@@ -22,7 +22,7 @@
             app:layout_constraintGuide_percent="0.7"/>
 
         <ImageView
-            android:id="@+id/cocktailImageView"
+            android:id="@+id/cocktailImg"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@null"
@@ -65,7 +65,7 @@
             app:layout_constraintHorizontal_bias="0"/>
 
         <TextView
-            android:id="@+id/txt_name"
+            android:id="@+id/txt_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

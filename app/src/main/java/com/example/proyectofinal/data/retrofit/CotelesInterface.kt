@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface CotelesInterface {
     @GET("search.php?s=margarita")
-    suspend fun getCoteles(): Response<CotelesListResponse>
+    suspend fun getAllCoteles(): CotelesListResponse
 }

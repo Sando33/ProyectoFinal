@@ -16,30 +16,31 @@
         android:label="fragment_firebase"
         tools:layout="@layout/fragment_firebase" />
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.example.proyectofinal.UI.fragments.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
-        <action
-            android:id="@+id/action_favoriteFragment_to_productDetail"
-            app:destination="@id/productDetail" />
-    </fragment>
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.proyectofinal.UI.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_productDetail"
-            app:destination="@id/productDetail" />
+            android:id="@+id/action_homeFragment_to_cotelesDetail"
+            app:destination="@id/cotelesDetail" />
     </fragment>
     <fragment
-        android:id="@+id/productDetail"
-        android:name="com.example.proyectofinal.UI.fragments.ProductDetail"
-        android:label="fragment_product_detail"
-        tools:layout="@layout/fragment_product_detail" >
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.proyectofinal.UI.fragments.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_cotelesDetail"
+            app:destination="@id/cotelesDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/cotelesDetail"
+        android:name="com.example.proyectofinal.UI.fragments.CotelesDetail"
+        android:label="fragment_coteles_detail"
+        tools:layout="@layout/fragment_coteles_detail" >
         <argument
-            android:name="coteles"
+            android:name="cotel"
             app:argType="com.example.proyectofinal.model.Coteles" />
     </fragment>
+
 </navigation>

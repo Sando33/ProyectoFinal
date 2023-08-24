@@ -16,28 +16,36 @@ import com.example.proyectofinal.databinding.FragmentHomeBinding
 import com.example.proyectofinal.model.Coteles
 
 class HomeFragment : Fragment() {
-    private lateinit var cocktailViewModel: HomeViewModel
-    private lateinit var adapter: RVCotelesAdapter
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var viewModel: HomeViewModel
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        // Inflate the layout for this fragment
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        cocktailViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = RVCotelesAdapter()
-        recyclerView.adapter = adapter
-
-        cocktailViewModel.cocktailList.observe(viewLifecycleOwner, { cocktails ->
-            adapter.submitList(cocktails)
-        })
+        val adapter = RVCotelesAdapter(listOf()){coteles ->
+            val directions = HomeFragmentDirections.actionHomeFragmentToCotelesDetail(coteles)
+            findNavController().navigate(directions)
+        }
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+        viewModel.coteles.observe(requireActivity()){coteles ->
+            adapter.coteles = coteles
+            adapter.notifyDataSetChanged()
+        }
+        viewModel.getProductFromService()
     }
 }

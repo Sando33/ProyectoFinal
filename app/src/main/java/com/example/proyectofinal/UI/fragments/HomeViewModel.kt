@@ -13,24 +13,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
+    private val _coteles: MutableLiveData<List<Coteles>> = MutableLiveData<List<Coteles>>()
+    val coteles: LiveData<List<Coteles>> = _coteles
 
-    private val apiService = RetrofitHelper.createService(CotelesInterface::class.java)
-    private val _cocktailList = MutableLiveData<List<Coteles>>()
-    val cocktailList: LiveData<List<Coteles>> get() = _cocktailList
+    private val repository = CotelesRepository()
 
-    init {
-        fetchData()
-    }
-
-    private fun fetchData() {
-        viewModelScope.launch {
-            try {
-                val response = apiService.getCoteles()
-                if (response.isSuccessful) {
-                    _cocktailList.postValue(response.body()?.drinks)
+    fun getProductFromService() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val response = repository.getCoteles()) {
+                is CotelesResult.Success -> {
+                    _coteles.postValue(response.data.coteles) // Cambio aquí para asignar la lista de coteles
                 }
-            } catch (e: Exception) {
-                // Manejar errores aquí
+                is CotelesResult.Error -> {
+                    // Manejo del error si es necesario
+                }
             }
         }
     }

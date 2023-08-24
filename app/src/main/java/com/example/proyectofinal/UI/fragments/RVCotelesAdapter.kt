@@ -14,37 +14,37 @@ import com.example.proyectofinal.R
 import com.example.proyectofinal.databinding.ItemcotelesBinding
 import com.example.proyectofinal.model.Coteles
 
-class RVCotelesAdapter : ListAdapter<Coteles, RVCotelesAdapter.ViewHolder>(CocktailDiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.itemcoteles, parent, false)
-        return ViewHolder(itemView)
+class RVCotelesAdapter(var coteles: List<Coteles>,val onClickProduct:(Coteles) -> Unit): RecyclerView.Adapter<ProductVH>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductVH {
+        val binding = ItemcotelesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ProductVH(binding, onClickProduct)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val cocktail = getItem(position)
-        holder.bind(cocktail)
+    override fun getItemCount(): Int = coteles.size
+
+    override fun onBindViewHolder(holder: ProductVH, position: Int) {
+        holder.bind(coteles[position])
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val cocktailNameTextView: TextView = itemView.findViewById(R.id.cocktailNameTextView)
-        private val cocktailImageView: ImageView = itemView.findViewById(R.id.cocktailImageView)
-
-        fun bind(cocktail: Coteles) {
-            cocktailNameTextView.text = cocktail.strDrink
-            Glide.with(itemView.context)
-                .load(cocktail.strDrinkThumb)
-                .into(cocktailImageView)
-        }
-    }
 }
 
-class CocktailDiffCallback : DiffUtil.ItemCallback<Coteles>() {
-    override fun areItemsTheSame(oldItem: Coteles, newItem: Coteles): Boolean {
-        return oldItem.idDrink == newItem.idDrink
+class ProductVH(private val binding : ItemcotelesBinding,val onClickProduct:(Coteles) -> Unit): RecyclerView.ViewHolder(binding.root){
+    fun bind(coteles: Coteles) {
+        binding.cocktailNameTextView.text = coteles.strDrink
+        binding.txtCategory.text = coteles.strCategory
+        if (coteles.strDrinkThumb.isNotEmpty()){
+            binding.cocktailImg.load(coteles.strDrinkThumb)
+        }else{
+            binding.cocktailImg.setImageResource(R.drawable.img_coteles)
+        }
+        if (coteles.isFavorite){
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_fill)
+        }else{
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
+        }
+        binding.root.setOnClickListener{
+            onClickProduct(coteles)
+        }
     }
 
-    override fun areContentsTheSame(oldItem: Coteles, newItem: Coteles): Boolean {
-        return oldItem == newItem
-    }
 }

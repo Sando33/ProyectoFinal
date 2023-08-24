@@ -5,18 +5,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
-    private const val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
-
-    private val okHttpClient = OkHttpClient.Builder()
-        .build()
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(okHttpClient)
+    private val retrofitInstance : Retrofit = Retrofit.Builder()
+        .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun <T> createService(serviceClass: Class<T>): T {
-        return retrofit.create(serviceClass)
-    }
+    val cotelesInstance = retrofitInstance.create(CotelesInterface::class.java)
 }
+
+
