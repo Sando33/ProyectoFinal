@@ -106,11 +106,11 @@ class Login : AppCompatActivity() {
                         }
                         goToMain()
                     } else {
-                        Toast.makeText(this,"Email y password no Incorrectos.",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Email y password no Incorrectos :(",Toast.LENGTH_SHORT).show()
                     }
                 }
         }else{
-            Toast.makeText( this,"Email y password no validos.",Toast.LENGTH_SHORT).show()
+            Toast.makeText( this,"Email y password no validos :(",Toast.LENGTH_SHORT).show()
         }
     }
 
